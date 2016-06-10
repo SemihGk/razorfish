@@ -1,0 +1,20 @@
+{
+  "name": "RazorfishAssignment",
+  "version": "0.0.1",
+  "description": "Razorfish assignment framework",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SemihGk/razorfish.git"
+  },
+  "scripts": {
+    "start": "npm install && node server.js"
+  },
+  "license": "MIT",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bower": "^1.7.9",
+    "express": "latest",
+    "nodejs": "0.0.0"
+  }
+}

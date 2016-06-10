@@ -1,0 +1,79 @@
+
+/*-----------------------------------*/
+/* Fonts */
+/*-----------------------------------*/
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,300,400,600,700,800);
+
+/*-----------------------------------*/
+/* Global Reset */
+/*-----------------------------------*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block}
+body {
+	line-height: 1; }
+ol, ul {
+	list-style: none; }
+blockquote, q {
+	quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none; }
+table {
+	border-collapse: collapse;
+	border-spacing: 0}
+
+html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; }
+
+/*-----------------------------------*/
+/* General Styles */
+/*-----------------------------------*/
+
+body {
+    font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+    color:#8e8071;
+	font-size:13px;
+	position:relative;
+    background: #aa8a6e url(images/bg.jpg) center top repeat;
+    background-size: 100% 100%;
+}
+::-moz-selection {
+	background: #aba98c;
+	color: #000;
+	text-shadow: none;
+}
+::selection {
+	background: #aba98c;
+	color: #333;
+	text-shadow: none;
+}
+a:hover,
+a:focus {
+	color: #8D8569;
+	text-decoration: none;
+}
+a:active{background-color: transparent;}
+
+input, textarea, input[type="submit"]:focus, div {
+    outline: 0 none;
+    font-family: 'Open Sans', sans-serif;
+}
+button, input, select, textarea {vertical-align: top; margin: 0;}
+
+.alpha{margin-left:0 !important;}
+.omega{margin-right:0 !important;}
+
+.no-radius{
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
