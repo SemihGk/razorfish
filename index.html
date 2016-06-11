@@ -27,6 +27,7 @@
   <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
   <script src="js/ng-file-upload-shim.min.js"></script>
   <script src="js/ng-file-upload.min.js"></script>
+  <script src="js/angular-socialshare.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
@@ -38,9 +39,11 @@
         <div class="col-sm-6">
           <!-- First Widget -->
           <div class="widget-container widget-trade boxed">
-            <div class="widget-title stockchart">
+            <div class="widget-title">
               <span class="trade-rate trade-rate-up">634. 39</span>
               <span class="trade-rate-change">+2.18 (3.71%)</span>
+              <div id="stockchart" class="stockchart">
+              </div>
             </div>
             <div class="inner">
               <div class="trade-time">Today 2:25 pm</div>
@@ -66,53 +69,65 @@
           <!-- Second Widget-->
           <div class="tabs_framed styled widget-stats">
             <form name="form">
-            <ul class="tabs clearfix tab_id1 bookmarks2">
-              <li class="active first"><a href="#diagram" data-toggle="tab" hidefocus="true" style="outline: none;">File Sizes</a></li>
-              <li class="last"><a href="#month" data-toggle="tab" hidefocus="true" style="outline: none;">File Counts</a></li>
-            </ul>
+              <ul class="tabs clearfix tab_id1 bookmarks2">
+                <li class="active first"><a href="#diagram" data-toggle="tab" hidefocus="true" style="outline: none;">File Sizes</a></li>
+                <li class="last"><a href="#month" data-toggle="tab" hidefocus="true" style="outline: none;">File Counts</a></li>
+              </ul>
 
-            <div class="tab-content boxed clearfix">
-              <div class="tab-pane fade in active" id="diagram">
-                <h6>File Sizes</h6>
-                <div id="donutchart" class="donutchart">
+              <div class="tab-content boxed clearfix">
+                <div class="tab-pane fade in active" id="diagram">
+                  <h6>File Sizes</h6>
+                  <div id="donutchart" class="donutchart">
+                  </div>
+                  <ul class="stats-data clearfix">
+                    <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioSize}}%</strong></a></li>
+                    <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoSize}}%</strong></a></li>
+                    <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoSize}}%</strong></a></li>
+                  </ul>
+                  <ul class="stats-links clearfix">
+                    <li class="first">
+                      <label for="file-input"><i class="stats-icon stats-icon1"></i>
+                        <br><span>upload files</span>
+                      </label>
+                      <input id="file-input" type="file" ngf-select ng-model="media" name="media" ngf-max-size="20MB" ngf-accept="'image/*|audio/*|video/*'" style="display:none;" ng-change="fm.onFileChange()"></input>
+                    </li>
+                    <li>
+                      <a href="#" hidefocus="true" style="outline: none;" socialshare socialshare-provider="twitter" socialshare-url="https://localhost" socialshare-text="razorfish graph" socialshare-hashtags="razorfish">
+                        <i class="stats-icon stats-icon2"></i>
+                        <br><span>Tweet</span>
+                      </a>
+                    </li>
+                    <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
+                  </ul>
                 </div>
-                <ul class="stats-data clearfix">
-                  <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioSize}}%</strong></a></li>
-                  <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoSize}}%</strong></a></li>
-                  <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoSize}}%</strong></a></li>
-                </ul>
-                <ul class="stats-links clearfix">
-                  <li class="first">
-                    <label for="file-input"><i class="stats-icon stats-icon1"></i><br><span>upload files</span>
-                    </label>
-                    <input id="file-input" type="file" ngf-select ng-model="media" name="media" ngf-max-size="20MB" ngf-accept="'image/*|audio/*|video/*'" style="display:none;" ng-change="fm.onFileChange()"></input>
-                  </li>
-                  <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
-                  <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
-                </ul>
-              </div>
-              <div class="tab-pane fade" id="month">
-                <h6>File Counts</h6>
-                <div id="columnchart" class="columnchart">
+                <div class="tab-pane fade" id="month">
+                  <h6>File Counts</h6>
+                  <div id="columnchart" class="columnchart">
+                  </div>
+                  <ul class="stats-data clearfix">
+                    <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioCount}}</strong></a></li>
+                    <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoCount}}</strong></a></li>
+                    <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoCount}}</strong></a></li>
+                  </ul>
+                  <!-- <li class="first"><a  hidefocus="true" style="outline: none;"><input type="file" name="media" accept="audio/*|video/*|image/*"><i class="stats-icon stats-icon1"></i><br><span>upload files</span></input></a></li> -->
+                  <ul class="stats-links clearfix">
+                    <li class="first">
+                      <label for="file-input"><i class="stats-icon stats-icon1"></i>
+                        <br><span>upload files</span>
+                      </label>
+                      <input id="file-input" type="file" name="media" accept="audio/*|video/*|image/*" style="display:none;"></input>
+                    </li>
+                    <li>
+                      <a href="#" hidefocus="true" style="outline: none;" socialshare socialshare-provider="twitter" socialshare-url="https://localhost" socialshare-text="graph" socialshare-hashtags="razorfish">
+                        <i class="stats-icon stats-icon2"></i>
+                        <br><span>Tweet</span>
+                      </a>
+                    </li>
+                    <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
+                  </ul>
                 </div>
-                <ul class="stats-data clearfix">
-                  <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioCount}}</strong></a></li>
-                  <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoCount}}</strong></a></li>
-                  <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoCount}}</strong></a></li>
-                </ul>
-                <!-- <li class="first"><a  hidefocus="true" style="outline: none;"><input type="file" name="media" accept="audio/*|video/*|image/*"><i class="stats-icon stats-icon1"></i><br><span>upload files</span></input></a></li> -->
-                <ul class="stats-links clearfix">
-                  <li class="first">
-                    <label for="file-input"><i class="stats-icon stats-icon1"></i><br><span>upload files</span>
-                    </label>
-                    <input id="file-input" type="file" name="media" accept="audio/*|video/*|image/*" style="display:none;"></input>
-                  </li>
-                  <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
-                  <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
-                </ul>
               </div>
-            </div>
-          </form>
+            </form>
           </div>
           <!-- End widget -->
         </div>

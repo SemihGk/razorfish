@@ -1,14 +1,9 @@
 (function() {
   'use strict';
-  angular.module("fish", ['ngFileUpload'])
+  angular.module("fish", ['ngFileUpload', '720kb.socialshare'])
     .controller("fisherman", function($scope, $http, Upload) {
       var self = this,
         socket = io();
-
-      // socket connection
-      // socket.on('stock', function(stock) {
-      //   console.log(stock);
-      // });
 
       $scope.init = function() {
         // Draw graphs
@@ -75,7 +70,46 @@
             };
 
             var chartBar = new google.visualization.ColumnChart(document.getElementById('columnchart'));
+
+            var optionsStock = {
+              width: 455,
+              height: 100,
+              legend: 'none',
+              colors: ['#fff'],
+              backgroundColor: '#4daf7b',
+              chartArea: {
+                left: 0,
+                top: 0,
+                width: "100%",
+                height: "100%"
+              },
+              hAxis: {
+                textPosition: "none",
+                gridlines: {
+                  color: "#4daf7b"
+                },
+                baselineColor: "#4daf7b"
+              },
+              vAxis: {
+                textPosition: "none",
+                gridlines: {
+                  color: "#4daf7b"
+                },
+                baselineColor: "#4daf7b"
+              }
+            };
+            var chartStock = new google.visualization.LineChart(document.getElementById('stockchart'));
             // Update charts Data
+
+            // socket connection
+            var stockData;
+            socket.on('stock', function(stock) {
+              stockData = google.visualization.arrayToDataTable(stock)
+              // google.visualization.LineChart(document.getElementById('chart_div'));
+              // console.log('here');
+              chartStock.draw(stockData, optionsStock);
+            });
+
             $scope.updateUploadCharts = function updateUploadCharts(donut, bar) {
               // Donut chart
               var donutData = google.visualization.arrayToDataTable(donut);
@@ -90,28 +124,7 @@
             $http.get('/file')
               .success(function(response) {
                 // $scope.responseText = 'Your message is sent successfully!';
-                var totalSize = 0;
-                _.each(response.donut, function(item) {
-                  if(_.isNumber(item[1])) totalSize += item[1];
-                });
-                // set file percentages
-                  self.videoSize = Math.floor(response
-                  .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Video' })][1] / totalSize * 100);
-                  self.audioSize = Math.floor(response
-                  .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Audio' })][1] / totalSize * 100);
-                  self.photoSize = Math.floor(response
-                  .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Image' })][1] / totalSize * 100);
-
-                  // set file counts
-
-                  self.videoCount = response
-                  .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Video' })][1];
-                  self.audioCount = response
-                  .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Audio' })][1];
-                  self.photoCount = response
-                  .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Image' })][1];
-
-                $scope.updateUploadCharts(response.donut, response.bar);
+                self.updateRequest(response);
               })
               .error(function(response) {
                 // $scope.responseText = 'I am sorry. Something went wrong.'
@@ -119,6 +132,36 @@
           } // drawChart
 
       } // init
+
+      self.updateRequest = function(response) {
+        var totalSize = 0;
+        _.each(response.donut, function(item) {
+          if(_.isNumber(item[1])) totalSize += item[1];
+        });
+        // set file percentages
+        if (totalSize <= 0) {
+          self.videoSize = 0;
+          self.audioSize = 0;
+          self.photoSize = 0;
+        } else {
+          self.videoSize = Math.floor(response
+            .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Video' })][1] / totalSize * 100);
+          self.audioSize = Math.floor(response
+            .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Audio' })][1] / totalSize * 100);
+          self.photoSize = Math.floor(response
+            .donut[_.findIndex(response.donut, function(item) { return item[0] === 'Image' })][1] / totalSize * 100);
+        }
+
+          // set file counts
+          self.videoCount = response
+          .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Video' })][1];
+          self.audioCount = response
+          .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Audio' })][1];
+          self.photoCount = response
+          .bar[_.findIndex(response.bar, function(item) { return item[0] === 'Image' })][1];
+
+        $scope.updateUploadCharts(response.donut, response.bar);
+      }
 
       self.onFileChange = function() {
         if ($scope.form.media.$valid && $scope.media) {
@@ -134,6 +177,8 @@
             data: {file: file}
         }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            console.log(resp.data);
+            self.updateRequest(resp.data);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
         }, function (evt) {
