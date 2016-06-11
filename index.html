@@ -12,6 +12,8 @@
   <!-- <link rel="icon" href="img/turkey.ico" type="image/x-icon"> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+
   <!-- Google graph -->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;packages=corechart" type="text/javascript"></script>
@@ -28,11 +30,15 @@
   <script src="js/ng-file-upload-shim.min.js"></script>
   <script src="js/ng-file-upload.min.js"></script>
   <script src="js/angular-socialshare.min.js"></script>
+  <script src="js/angular-sanitize.min.js"></script>
+  <script src="js/ngNotificationsBar.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/ngNotificationsBar.min.css" />
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body ng-app="fish" ng-controller="fisherman as fm" ng-init="init()" ng-cloak>
+   <notifications-bar class="notifications"></notifications-bar>
   <div class="container container-wide">
     <div class="content">
       <div class="row">
@@ -42,22 +48,25 @@
             <div class="widget-title">
               <span class="trade-rate trade-rate-up">634. 39</span>
               <span class="trade-rate-change">+2.18 (3.71%)</span>
-              <div id="stockchart" class="stockchart">
-              </div>
+            </div>
+            <div id="stockchart" class="stockchart">
             </div>
             <div class="inner">
-              <div class="trade-time">Today 2:25 pm</div>
-              <h4 class="trade-location"><a href="#" hidefocus="true" style="outline: none;">Salt Lake City, Utah</a></h4>
+              <div class="trade-time" ng-bind="currentTime"></div>
+              <h4 class="trade-location"><a href="#" hidefocus="true" style="outline: none;">Toronto</a></h4>
               <ul class="trade-shares clearfix">
                 <li class="traded first"><a href="#" hidefocus="true" style="outline: none;"><strong>13.5 M</strong><span>Shares Traded</span></a></li>
                 <li class="capitalization last"><a href="#" hidefocus="true" style="outline: none;"><strong>28.44 B</strong><span>Market Cap</span></a></li>
               </ul>
               <div class="trade-bottom trade-graph">
                 <h6 class="trade-bottom-title">AAPL</h6>
-                <div class="trade-bottom-content"><img src="images/trade-graph.png" alt=""></div>
+                <div class="trade-bottom-content">
+                  <div id="stockapl" class="stockapl">
+                  </div>
+                </div>
               </div>
               <div class="trade-bottom trade-yearly-change">
-                <h6 class="trade-bottom-title">Yearly Change</h6>
+                <h6 class="trade-bottom-title">Change</h6>
                 <div class="trade-bottom-content"><span>+127. 01</span></div>
               </div>
               <div class="clear"></div>

@@ -51,6 +51,11 @@ io.on('connection', function(socket) {
     [60, 64], [61, 60], [62, 65], [63, 67], [64, 68], [65, 69],
     [66, 70], [67, 72], [68, 75], [69, 80]
   ];
+  var changeArray = [['Month', 'Value', { role: 'style' }],
+    ["Jan", 1.5, '#FF2115'], ["Feb", 2.5, '#4daf7b'], ["Mar", 0.4, '#FF2115'],
+    ["Apr", 3.2, '#4daf7b'], ["May", 2.1, '#FF2115'], ["Jun", 2.7, '#4daf7b']
+  ];
+  socket.emit('stock', stockArray, changeArray);
   var stockInterval = setInterval(function() {
     var stock = Math.floor(Math.random() * 80) + 1;
     stockArray.splice(1, 1); // remove first element
@@ -60,10 +65,18 @@ io.on('connection', function(socket) {
       }
       return item;
     });
-    console.log(stockArray);
     stockArray.push([69, stock]);
-    socket.emit('stock', stockArray);
-  }, 1000);
+
+    changeArray = _.map(changeArray, function(item) {
+      if (_.isNumber(item[1])) {
+        var change = (Math.floor(Math.random() * 10) / 10) + 1;
+        item[1] = change;
+        item[2] = change > 1.5 ? '#4daf7b' : '#FF2115';
+      }
+      return item;
+    });
+    socket.emit('stock', stockArray, changeArray);
+  }, 2000);
 
   // remove interval when disconnect
   socket.on('disconnect', function() {
