@@ -4,130 +4,41 @@
 <head>
   <!-- start: Meta -->
   <meta charset="utf-8">
-  <title>Resume</title>
-  <meta name="description" content="Resume App">
+  <title>Razorfish</title>
+  <meta name="description" content="Razorfish">
   <meta name="author" content="Semih GOKCEOGLU">
   <meta name="keyword" content="Computer engineer, web and mobile application developer">
   <!-- end: Meta -->
   <!-- <link rel="icon" href="img/turkey.ico" type="image/x-icon"> -->
-
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.js"></script> -->
-  <!-- <script src="js/angular-dragdrop.min.js"></script> -->
-  <!-- bower components -->
-  <!-- end: bower components -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
   <!-- Google graph -->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript">
-    google.load("visualization", "1", {
-      packages: ["corechart"]
-    });
-    google.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ['Media', 'GB'],
-        ['Audio', 1100],
-        ['Video', 460],
-        ['Photo', 340],
-        ['Other', 100]
-      ]);
-
-      var options = {
-        pieHole: 0.4,
-        legend: 'none',
-        pieSliceText: 'none',
-        width: 220,
-        height: 220,
-        slices: {
-          0: {
-            color: '#4daf7b'
-          },
-          1: {
-            color: '#e6623d'
-          },
-          2: {
-            color: '#ebc85e'
-          },
-          3: {
-            color: '#f4ede7'
-          }
-        },
-        chartArea: {
-          left: "10px",
-          top: "10px",
-          width: "92%",
-          height: "92%"
-        }
-      };
-
-      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-      chart.draw(data, options);
-
-      var data2 = google.visualization.arrayToDataTable([
-        ['Month', 'Traffic'],
-        ['June', 1100],
-        ['July', 1580],
-        ['August', 1300],
-        ['September', 1430]
-      ]);
-
-      var options2 = {
-        width: 220,
-        height: 220,
-        legend: 'none',
-        colors: ['#4daf7b'],
-        chartArea: {
-          left: 0,
-          top: 0,
-          width: "100%",
-          height: "100%"
-        },
-        hAxis: {
-          textPosition: "none",
-          gridlines: {
-            color: "#fff"
-          },
-          baselineColor: "#4daf7b"
-        },
-        vAxis: {
-          textPosition: "none",
-          gridlines: {
-            color: "#fff"
-          },
-          baselineColor: "#4daf7b"
-        }
-      };
-
-      var chart2 = new google.visualization.ColumnChart(document.getElementById('columnchart'));
-      chart2.draw(data2, options2);
-    }
-  </script>
   <script src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;packages=corechart" type="text/javascript"></script>
   <link href="https://www.google.com/uds/api/visualization/1.0/cc4e780f27c723c0cb35ec1e38ec2bb9/ui+en.css" type="text/css" rel="stylesheet">
   <script src="https://www.google.com/uds/api/visualization/1.0/cc4e780f27c723c0cb35ec1e38ec2bb9/format+en,default+en,ui+en,corechart+en.I.js" type="text/javascript"></script>
   <!-- End google graphs-->
   <script src="js/cooker.js"></script>
-  <script src="js/vanilla.js"></script>
-  <!-- <script src="js/modernizr.min.js"></script> -->
+  <!-- <script src="js/vanilla.js"></script> That was really bad joke! I do not believe I bit it. -->
   <script src="js/jquery-1.10.0.js"></script>
   <script src="js/jquery-ui.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+  <script src="js/ng-file-upload-shim.min.js"></script>
+  <script src="js/ng-file-upload.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
-<body>
+<body ng-app="fish" ng-controller="fisherman as fm" ng-init="init()" ng-cloak>
   <div class="container container-wide">
     <div class="content">
       <div class="row">
         <div class="col-sm-6">
           <!-- First Widget -->
           <div class="widget-container widget-trade boxed">
-            <div class="widget-title">
+            <div class="widget-title stockchart">
               <span class="trade-rate trade-rate-up">634. 39</span>
               <span class="trade-rate-change">+2.18 (3.71%)</span>
             </div>
@@ -154,48 +65,59 @@
         <div class="col-sm-6">
           <!-- Second Widget-->
           <div class="tabs_framed styled widget-stats">
+            <form name="form">
             <ul class="tabs clearfix tab_id1 bookmarks2">
-                <li class="active first"><a href="#diagram" data-toggle="tab" hidefocus="true" style="outline: none;">Diagram Stats</a></li>
-                <li class="last"><a href="#month" data-toggle="tab" hidefocus="true" style="outline: none;">Month Report</a></li>
+              <li class="active first"><a href="#diagram" data-toggle="tab" hidefocus="true" style="outline: none;">File Sizes</a></li>
+              <li class="last"><a href="#month" data-toggle="tab" hidefocus="true" style="outline: none;">File Counts</a></li>
             </ul>
 
             <div class="tab-content boxed clearfix">
-                <div class="tab-pane fade in active" id="diagram">
-                    <h6>Data Transfer</h6>
-                    <div id="donutchart" class="donutchart"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 220px; height: 220px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="220" height="220" aria-label="A chart." style="overflow: hidden;"><defs id="defs"></defs><rect x="0" y="0" width="220" height="220" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><path d="M97.51571342725211,71.57731674167579L78.7892835681303,13.943291854189496A101,101,0,0,1,110,9L109.99999999999999,69.6A40.400000000000006,40.400000000000006,0,0,0,97.51571342725211,71.57731674167579" stroke="#ffffff" stroke-width="1" fill="#f4ede7"></path></g><g><path d="M70.31559507056097,102.42979489073672L10.788987676402456,91.0744872268418A101,101,0,0,1,78.7892835681303,13.943291854189496L97.51571342725211,71.57731674167579A40.400000000000006,40.400000000000006,0,0,0,70.31559507056097,102.42979489073672" stroke="#ffffff" stroke-width="1" fill="#ebc85e"></path></g><g><path d="M97.51571342725211,148.4226832583242L78.78928356813027,206.0567081458105A101,101,0,0,1,10.788987676402456,91.0744872268418L70.31559507056097,102.42979489073672A40.400000000000006,40.400000000000006,0,0,0,97.51571342725211,148.4226832583242" stroke="#ffffff" stroke-width="1" fill="#e6623d"></path></g><g><path d="M110,69.6L110,9A101,101,0,1,1,78.78928356813027,206.0567081458105L97.51571342725211,148.4226832583242A40.400000000000006,40.400000000000006,0,1,0,110,69.6" stroke="#ffffff" stroke-width="1" fill="#4daf7b"></path></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Media</th><th>GB</th></tr></thead><tbody><tr><td>Audio</td><td>1,100</td></tr><tr><td>Video</td><td>460</td></tr><tr><td>Photo</td><td>340</td></tr><tr><td>Other</td><td>100</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 230px; left: 230px; white-space: nowrap; font-family: Arial; font-size: 10px; font-weight: bold;">340 (17%)</div><div></div></div></div>
-                    <ul class="stats-data clearfix">
-                        <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>55%</strong></a></li>
-                        <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>23%</strong></a></li>
-                        <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>17%</strong></a></li>
-                    </ul>
-                    <ul class="stats-links clearfix">
-                        <li class="first"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon1"></i><br><span>upload files</span></a></li>
-                        <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
-                        <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
-                    </ul>
+              <div class="tab-pane fade in active" id="diagram">
+                <h6>File Sizes</h6>
+                <div id="donutchart" class="donutchart">
                 </div>
-                <div class="tab-pane fade" id="month">
-                    <h6>Data chart</h6>
-                    <div id="columnchart" class="columnchart"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 220px; height: 220px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="220" height="220" aria-label="A chart." style="overflow: hidden;"><defs id="defs"><clipPath id="_ABSTRACT_RENDERER_ID_0"><rect x="0" y="0" width="220" height="220"></rect></clipPath></defs><rect x="0" y="0" width="220" height="220" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><rect x="0" y="0" width="220" height="220" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g clip-path="url(http://wp_135520.widu-it.com/uiKits/pixelKit/metro-vibes/metro-vibes-css/?search=se#_ABSTRACT_RENDERER_ID_0)"><g><rect x="0" y="219" width="220" height="1" stroke="none" stroke-width="0" fill="#ffffff"></rect><rect x="0" y="164" width="220" height="1" stroke="none" stroke-width="0" fill="#ffffff"></rect><rect x="0" y="110" width="220" height="1" stroke="none" stroke-width="0" fill="#ffffff"></rect><rect x="0" y="55" width="220" height="1" stroke="none" stroke-width="0" fill="#ffffff"></rect><rect x="0" y="0" width="220" height="1" stroke="none" stroke-width="0" fill="#ffffff"></rect></g><g><rect x="11" y="165" width="34" height="300" stroke="none" stroke-width="0" fill="#4daf7b"></rect><rect x="66" y="34" width="34" height="431" stroke="none" stroke-width="0" fill="#4daf7b"></rect><rect x="120" y="111" width="34" height="354" stroke="none" stroke-width="0" fill="#4daf7b"></rect><rect x="175" y="75" width="34" height="390" stroke="none" stroke-width="0" fill="#4daf7b"></rect></g></g><g></g></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Month</th><th>Traffic</th></tr></thead><tbody><tr><td>June</td><td>1,100</td></tr><tr><td>July</td><td>1,580</td></tr><tr><td>August</td><td>1,300</td></tr><tr><td>September</td><td>1,430</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 230px; left: 230px; white-space: nowrap; font-family: Arial; font-size: 10px;">...</div><div></div></div></div>
-                    <ul class="stats-data clearfix">
-                        <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>50%</strong></a></li>
-                        <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>26%</strong></a></li>
-                        <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>18%</strong></a></li>
-                    </ul>
-                    <ul class="stats-links clearfix">
-                        <li class="first"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon1"></i><br><span>upload files</span></a></li>
-                        <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
-                        <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
-                    </ul>
+                <ul class="stats-data clearfix">
+                  <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioSize}}%</strong></a></li>
+                  <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoSize}}%</strong></a></li>
+                  <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoSize}}%</strong></a></li>
+                </ul>
+                <ul class="stats-links clearfix">
+                  <li class="first">
+                    <label for="file-input"><i class="stats-icon stats-icon1"></i><br><span>upload files</span>
+                    </label>
+                    <input id="file-input" type="file" ngf-select ng-model="media" name="media" ngf-max-size="20MB" ngf-accept="'image/*|audio/*|video/*'" style="display:none;" ng-change="fm.onFileChange()"></input>
+                  </li>
+                  <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
+                  <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
+                </ul>
+              </div>
+              <div class="tab-pane fade" id="month">
+                <h6>File Counts</h6>
+                <div id="columnchart" class="columnchart">
                 </div>
+                <ul class="stats-data clearfix">
+                  <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioCount}}</strong></a></li>
+                  <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoCount}}</strong></a></li>
+                  <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoCount}}</strong></a></li>
+                </ul>
+                <!-- <li class="first"><a  hidefocus="true" style="outline: none;"><input type="file" name="media" accept="audio/*|video/*|image/*"><i class="stats-icon stats-icon1"></i><br><span>upload files</span></input></a></li> -->
+                <ul class="stats-links clearfix">
+                  <li class="first">
+                    <label for="file-input"><i class="stats-icon stats-icon1"></i><br><span>upload files</span>
+                    </label>
+                    <input id="file-input" type="file" name="media" accept="audio/*|video/*|image/*" style="display:none;"></input>
+                  </li>
+                  <li><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon2"></i><br><span>share link</span></a></li>
+                  <li class="last"><a href="#" hidefocus="true" style="outline: none;"><i class="stats-icon stats-icon3"></i><br><span>back up</span></a></li>
+                </ul>
+              </div>
             </div>
+          </form>
+          </div>
+          <!-- End widget -->
         </div>
-        <!-- End widget -->
-        </div>
-        <div class>
       </div>
     </div>
-  </div>
 </body>
 
 </html>

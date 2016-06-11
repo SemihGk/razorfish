@@ -12,9 +12,15 @@
   "license": "MIT",
   "main": "server.js",
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.15.0",
     "bower": "^1.7.9",
     "express": "latest",
-    "nodejs": "0.0.0"
+    "file-type": "^3.8.0",
+    "lodash": "^4.13.1",
+    "multer": "^1.1.0",
+    "nodejs": "0.0.0",
+    "read-chunk": "^2.0.0",
+    "socket.io": "^1.4.6"
   }
 }
