@@ -44,3 +44,9 @@ angularjs, nodejs, expressjs, socket.io, CSS, lodash, momentjs, angular-material
 4. User friendly.
 5. Maintainable.
 6. Commented code design.
+ 
+####### Screenshots
+![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Desktop.png)
+![Alt text](razorfish/store/images/Phone.png?raw=true "Title")
+![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Resized.png)
+
