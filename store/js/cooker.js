@@ -1,11 +1,14 @@
 (function() {
   'use strict';
-  angular.module("fish", ['ngFileUpload', '720kb.socialshare', 'ngNotificationsBar', 'ngSanitize'])
-    .controller("fisherman", function($scope, $http, Upload, notifications) {
+  angular.module("fish", ['ngFileUpload', '720kb.socialshare', 'ngNotificationsBar', 'ngMaterial'])
+    .controller("fisherman", function($scope, $http, $timeout, Upload, notifications) {
       var self = this,
         socket = io();
       self.stockCls = true;
       $scope.currentTime = moment().format('ddd, hh:mm A');
+      self.showBuffer = false;
+      self.progressFirst = 20;
+      self.progressSecond = 40;
       $scope.init = function() {
           // Draw graphs
           google.load("visualization", "1", {
@@ -226,6 +229,7 @@
 
       self.onFileChange = function() {
         if ($scope.form.media.$valid && $scope.media) {
+          self.showBuffer = true;
           $scope.uploadFile($scope.media);
         } else {
           notifications.showError({
@@ -249,14 +253,20 @@
             hideDelay: 2000, //ms
             hide: true //bool
           });
+          // after progress finished hide
+          $timeout(function () {
+            self.showBuffer = false;
+          }, 700);
         }, function(resp) {
-          console.log(resp)
           notifications.showError({
             message: 'Oops! Something went wrong!',
             hideDelay: 1500, //ms
             hide: true //bool
           });
-        });
+        }, function (evt) {
+            self.progressFirst = parseInt(100.0 * evt.loaded / evt.total);
+            self.progressSecond = self.progressFirst + 20;
+        });;
       }
     });
 })();

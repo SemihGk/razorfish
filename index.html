@@ -10,10 +10,13 @@
   <meta name="keyword" content="Computer engineer, web and mobile application developer">
   <!-- end: Meta -->
   <!-- <link rel="icon" href="img/turkey.ico" type="image/x-icon"> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/angular/bower-material/master/angular-material.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-aria.min.js"></script>
+  <script src="https://gitcdn.link/repo/angular/bower-material/master/angular-material.js"></script>
   <!-- Google graph -->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;packages=corechart" type="text/javascript"></script>
@@ -92,6 +95,11 @@
                     <li class="first"><a href="#" hidefocus="true" style="outline: none;"><span>photo</span><strong>{{fm.photoSize}}%</strong></a></li>
                     <li class="red"><a href="#" hidefocus="true" style="outline: none;"><span>audio</span><strong>{{fm.audioSize}}%</strong></a></li>
                     <li class="yellow last"><a href="#" hidefocus="true" style="outline: none;"><span>video</span><strong>{{fm.videoSize}}%</strong></a></li>
+                  </ul>
+                  <ul>
+                    <md-progress-linear class="md-warn" md-mode="buffer" value="{{fm.progressFirst}}"
+                      md-buffer-value="{{fm.progressSecond}}" ng-show="fm.showBuffer">
+                    </md-progress-linear>
                   </ul>
                   <ul class="stats-links clearfix">
                     <li class="first">
