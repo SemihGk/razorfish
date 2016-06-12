@@ -46,7 +46,7 @@ angularjs, nodejs, expressjs, socket.io, CSS, lodash, momentjs, angular-material
 6. Commented code design.
  
 ####### Screenshots
-![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Desktop.png)
-![Alt text](/razorfish/store/images/Phone.png)
-![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Resized.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5814582/15993140/1cefa06c-30ab-11e6-9f5e-e6e0b7e6dc40.png)
+![Alt text](https://cloud.githubusercontent.com/assets/5814582/15993141/1cfd6d8c-30ab-11e6-8515-f01004d23b2d.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5814582/15993142/1d018b88-30ab-11e6-89fd-bbb5991b7058.png)
 
