@@ -47,6 +47,6 @@ angularjs, nodejs, expressjs, socket.io, CSS, lodash, momentjs, angular-material
  
 ####### Screenshots
 ![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Desktop.png)
-![Alt text](razorfish/store/images/Phone.png?raw=true "Title")
+![Alt text](/razorfish/store/images/Phone.png)
 ![alt tag](https://raw.github.com/SemihGk/razorfish/store/images/Resized.png)
 
